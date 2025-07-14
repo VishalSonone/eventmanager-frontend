@@ -9,7 +9,7 @@ const EventDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/events/${id}`)
+    fetch(`https://eventmanager-backend-1-5121.onrender.com/api/events/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setEvent(data);

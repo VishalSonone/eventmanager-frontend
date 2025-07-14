@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080', // Spring Boot backend
+        target: 'https://eventmanager-backend-1-5121.onrender.com', // Spring Boot backend
         changeOrigin: true,
         secure: false,
       },

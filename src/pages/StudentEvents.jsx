@@ -17,14 +17,14 @@ const StudentEvents = () => {
         setIsLoading(true);
         setError(null);
 
-        const eventsResponse = await fetch('http://localhost:8080/api/events');
+        const eventsResponse = await fetch('https://eventmanager-backend-1-5121.onrender.com/api/events');
         if (!eventsResponse.ok) throw new Error('Failed to fetch events');
         const eventsData = await eventsResponse.json();
         setEvents(eventsData);
 
         const counts = {};
         for (const event of eventsData) {
-          const response = await fetch(`http://localhost:8080/api/events/${event.id}/with-participants`);
+          const response = await fetch(`https://eventmanager-backend-1-5121.onrender.com/api/events/${event.id}/with-participants`);
           if (response.ok) {
             const eventWithParticipants = await response.json();
             counts[event.id] = eventWithParticipants.enrollments?.length || 0;
@@ -33,7 +33,7 @@ const StudentEvents = () => {
         setParticipantsCount(counts);
 
         if (student?.id) {
-          const enrollmentsResponse = await fetch(`http://localhost:8080/api/enrollments/student/${student.id}`);
+          const enrollmentsResponse = await fetch(`https://eventmanager-backend-1-5121.onrender.com/api/enrollments/student/${student.id}`);
           if (!enrollmentsResponse.ok) throw new Error('Failed to fetch enrollments');
           const enrollmentsData = await enrollmentsResponse.json();
           setEnrollments(enrollmentsData);

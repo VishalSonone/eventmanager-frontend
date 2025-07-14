@@ -10,7 +10,7 @@ const StudentAnnouncements = () => {
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/announcements/student");
+        const response = await fetch("https://eventmanager-backend-1-5121.onrender.com/api/announcements/student");
         if (!response.ok) throw new Error("Failed to fetch announcements");
         const data = await response.json();
         setAnnouncements(data);
@@ -68,7 +68,7 @@ const StudentAnnouncements = () => {
 
             {announcement.fileName && (
               <a
-                href={`http://localhost:8080/api/announcements/${announcement.id}/file`}
+                href={`https://eventmanager-backend-1-5121.onrender.com/api/announcements/${announcement.id}/file`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-sm text-blue-600 hover:underline gap-1"

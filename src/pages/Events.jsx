@@ -20,7 +20,7 @@ const Events = () => {
     const studentData = JSON.parse(localStorage.getItem("student"));
     setStudentId(studentData?.id || null);
 
-    fetch("http://localhost:8080/api/events")
+    fetch("https://eventmanager-backend-1-5121.onrender.com/api/events")
       .then((res) => res.json())
       .then((data) => {
         setEvents(data);
@@ -35,7 +35,7 @@ const Events = () => {
   const handleEnroll = async (eventId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/enrollments/${eventId}/student/${studentId}`,
+        `https://eventmanager-backend-1-5121.onrender.com/api/enrollments/${eventId}/student/${studentId}`,
         {
           method: "POST",
         }

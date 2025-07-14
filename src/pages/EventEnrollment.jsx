@@ -20,7 +20,7 @@ const EventEnrollment = () => {
     const fetchEvent = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:8080/api/events/${id}/with-participants`);
+        const response = await fetch(`https://eventmanager-backend-1-5121.onrender.com/api/events/${id}/with-participants`);
         if (!response.ok) throw new Error('Failed to fetch event');
         const data = await response.json();
         setEvent(data);
@@ -44,7 +44,7 @@ const EventEnrollment = () => {
 
       setIsEnrolling(true);
       
-      const response = await fetch('http://localhost:8080/api/enrollments', {
+      const response = await fetch('https://eventmanager-backend-1-5121.onrender.com/api/enrollments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

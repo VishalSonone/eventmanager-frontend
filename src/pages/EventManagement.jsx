@@ -23,7 +23,7 @@ function EventManagement() {
 
   const fetchEvents = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/events");
+      const res = await fetch("https://eventmanager-backend-1-5121.onrender.com/api/events");
       const data = await res.json();
       const today = new Date().toISOString().split("T")[0];
       const processed = data.map((e) => ({
@@ -40,7 +40,7 @@ function EventManagement() {
     setLoadingParticipants(true);
     try {
       const response = await fetch(
-        `http://localhost:8080/api/enrollments/${eventId}/participants`
+        `https://eventmanager-backend-1-5121.onrender.com/api/enrollments/${eventId}/participants`
       );
       const participants = await response.json();
       setEvents((prevEvents) =>
@@ -74,8 +74,8 @@ function EventManagement() {
   const handleAddOrUpdateEvent = async () => {
     const method = editingEventId ? "PUT" : "POST";
     const url = editingEventId
-      ? `http://localhost:8080/api/events/${editingEventId}`
-      : "http://localhost:8080/api/events";
+      ? `https://eventmanager-backend-1-5121.onrender.com/api/events/${editingEventId}`
+      : "https://eventmanager-backend-1-5121.onrender.com/api/events";
 
     try {
       const res = await fetch(url, {
@@ -98,7 +98,7 @@ function EventManagement() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/events/${id}`, {
+      const res = await fetch(`https://eventmanager-backend-1-5121.onrender.com/api/events/${id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed to delete event");
@@ -128,7 +128,7 @@ function EventManagement() {
   const removeParticipant = async (eventId, studentId) => {
     try {
       const res = await fetch(
-        `http://localhost:8080/api/enrollments/${eventId}/student/${studentId}`,
+        `https://eventmanager-backend-1-5121.onrender.com/api/enrollments/${eventId}/student/${studentId}`,
         { method: "DELETE" }
       );
       if (!res.ok) throw new Error("Failed to remove participant");

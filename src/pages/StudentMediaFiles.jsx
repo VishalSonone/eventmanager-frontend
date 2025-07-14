@@ -8,7 +8,7 @@ const StudentMediaFiles = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/media/list")
+    fetch("https://eventmanager-backend-1-5121.onrender.com/api/media/list")
       .then((res) => res.json())
       .then((data) => setFiles(data))
       .catch((err) => console.error("Fetch error:", err));
@@ -77,7 +77,7 @@ const StudentMediaFiles = () => {
 
               {file.fileType === "image" ? (
                 <img
-                  src={`http://localhost:8080${file.filePath}`}
+                  src={`https://eventmanager-backend-1-5121.onrender.com${file.filePath}`}
                   alt={file.originalName}
                   className="w-full h-48 object-cover rounded-xl transform hover:scale-105 transition duration-300"
                 />
@@ -90,7 +90,7 @@ const StudentMediaFiles = () => {
 
               <div className="mt-4 flex justify-between text-sm text-gray-700 font-medium">
                 <a
-                  href={`http://localhost:8080${file.filePath}`}
+                  href={`https://eventmanager-backend-1-5121.onrender.com${file.filePath}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-1 text-blue-600 hover:underline"
@@ -98,7 +98,7 @@ const StudentMediaFiles = () => {
                   <FaEye /> <span>Preview</span>
                 </a>
                 <a
-                  href={`http://localhost:8080${file.filePath}`}
+                  href={`https://eventmanager-backend-1-5121.onrender.com${file.filePath}`}
                   download
                   className="flex items-center space-x-1 text-green-600 hover:underline"
                 >
