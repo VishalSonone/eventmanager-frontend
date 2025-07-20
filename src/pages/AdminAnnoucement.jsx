@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trash2, Plus, FileText } from 'lucide-react';
-import { API } from '../api';
+import { api, BASE_URL } from '../api';
 
 const AdminAnnouncement = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [newAnnouncement, setNewAnnouncement] = useState({
     title: '',
     content: '',
-    target: 'all'
+    target: 'all',
   });
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +20,9 @@ const AdminAnnouncement = () => {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await fetch(`${API}/api/announcements`);
+      setIsLoading(true);
+      const response = await api.get('/api/announcements');
+      if (!response.ok) throw new Error('Failed to fetch announcements');
       const data = await response.json();
       setAnnouncements(data);
     } catch (error) {
@@ -34,6 +36,7 @@ const AdminAnnouncement = () => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.type === 'application/pdf') {
       setFile(selectedFile);
+      setError('');
     } else {
       setError('Please select a PDF file');
     }
@@ -57,13 +60,10 @@ const AdminAnnouncement = () => {
     }
 
     try {
-      const response = await fetch(`${API}/api/announcements`, {
-        method: 'POST',
-        body: formData
-      });
-
+      const response = await api.post('/api/announcements', formData);
       if (!response.ok) {
-        throw new Error(await response.text());
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to create announcement');
       }
 
       const result = await response.json();
@@ -78,12 +78,9 @@ const AdminAnnouncement = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`${API}/api/announcements/${id}`, {
-        method: 'DELETE'
-      });
-
+      const response = await api.delete(`/api/announcements/${id}`);
       if (response.ok) {
-        setAnnouncements(announcements.filter(a => a.id !== id));
+        setAnnouncements(announcements.filter((a) => a.id !== id));
       } else {
         throw new Error('Failed to delete announcement');
       }
@@ -165,7 +162,7 @@ const AdminAnnouncement = () => {
                     <p className="text-gray-700 mt-1 text-sm">{a.content}</p>
                     {a.fileName && (
                       <a
-                        href={`${API}/api/announcements/${a.id}/file`}
+                        href={`${BASE_URL}/api/announcements/${a.id}/file`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-2 inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 text-sm"
@@ -174,17 +171,18 @@ const AdminAnnouncement = () => {
                       </a>
                     )}
                   </div>
-                  <button
-                    onClick={() => handleDelete(a.id)}
-                    className="text-red-600 hover:text-red-800"
-                  >
+                  <button onClick={() => handleDelete(a.id)} className="text-red-600 hover:text-red-800">
                     <Trash2 size={18} />
                   </button>
                 </div>
                 <div className="flex justify-between text-xs text-gray-500 mt-2">
                   <span>{new Date(a.createdAt).toLocaleString()}</span>
                   <span className="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">
-                    {a.target === 'all' ? 'All Users' : a.target === 'students' ? 'Students Only' : 'Faculty Only'}
+                    {a.target === 'all'
+                      ? 'All Users'
+                      : a.target === 'students'
+                      ? 'Students Only'
+                      : 'Faculty Only'}
                   </span>
                 </div>
               </div>

@@ -56,12 +56,7 @@ const Home = () => {
           transition={{ delay: 1.2 }}
           className="mt-8"
         >
-          <a
-            href="/events"
-            className="px-6 py-3 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition"
-          >
-            View Events
-          </a>
+          
         </motion.div>
       </div>
     </motion.div>
