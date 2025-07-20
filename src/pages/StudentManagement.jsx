@@ -7,6 +7,7 @@ import {
   Save,
   X,
 } from "lucide-react";
+import { BASE_URL } from "../api";
 
 function StudentManagement() {
   const [students, setStudents] = useState([]);
@@ -17,7 +18,7 @@ function StudentManagement() {
   const [animateRow, setAnimateRow] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/students")
+    fetch(`${BASE_URL}/api/students`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch students");
         return res.json();
@@ -48,7 +49,7 @@ function StudentManagement() {
   };
 
   const handleAction = (id, action) => {
-    fetch(`http://localhost:8080/api/students/${id}/${action}`, {
+    fetch(`${BASE_URL}/api/students/${id}/${action}`, {
       method: "PUT",
     })
       .then(() => {
@@ -63,7 +64,7 @@ function StudentManagement() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:8080/api/students/${id}`, {
+    fetch(`${BASE_URL}/api/students/${id}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -84,7 +85,7 @@ function StudentManagement() {
   };
 
   const saveEdit = (id) => {
-    fetch(`http://localhost:8080/api/students/${id}`, {
+    fetch(`${BASE_URL}/api/students/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editData),
@@ -169,9 +170,8 @@ function StudentManagement() {
             {filteredStudents.map((student) => (
               <tr
                 key={student.id}
-                className={`transition-all ${
-                  animateRow === student.id ? "bg-green-50" : ""
-                } hover:bg-gray-50`}
+                className={`transition-all ${animateRow === student.id ? "bg-green-50" : ""
+                  } hover:bg-gray-50`}
               >
                 <td className="px-3 py-2 border">{student.id}</td>
                 <td className="px-3 py-2 border">

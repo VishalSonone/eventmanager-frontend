@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trash2, Plus, FileText } from 'lucide-react';
+import { API } from '../api';
 
 const AdminAnnouncement = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -19,7 +20,7 @@ const AdminAnnouncement = () => {
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await fetch('/api/announcements');
+      const response = await fetch(`${API}/api/announcements`);
       const data = await response.json();
       setAnnouncements(data);
     } catch (error) {
@@ -56,7 +57,7 @@ const AdminAnnouncement = () => {
     }
 
     try {
-      const response = await fetch('/api/announcements', {
+      const response = await fetch(`${API}/api/announcements`, {
         method: 'POST',
         body: formData
       });
@@ -77,7 +78,7 @@ const AdminAnnouncement = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`/api/announcements/${id}`, {
+      const response = await fetch(`${API}/api/announcements/${id}`, {
         method: 'DELETE'
       });
 
@@ -164,7 +165,7 @@ const AdminAnnouncement = () => {
                     <p className="text-gray-700 mt-1 text-sm">{a.content}</p>
                     {a.fileName && (
                       <a
-                        href={`/api/announcements/${a.id}/file`}
+                        href={`${API}/api/announcements/${a.id}/file`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-2 inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 text-sm"

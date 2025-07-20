@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Bell, FileText } from "lucide-react";
+import { BASE_URL } from "../api";
 
 const StudentAnnouncements = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -10,7 +11,7 @@ const StudentAnnouncements = () => {
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/announcements/student");
+        const response = await fetch(`${BASE_URL}/api/announcements/student`);
         if (!response.ok) throw new Error("Failed to fetch announcements");
         const data = await response.json();
         setAnnouncements(data);
@@ -31,7 +32,6 @@ const StudentAnnouncements = () => {
       transition={{ duration: 0.4 }}
       className="min-h-screen px-6 py-6 bg-gradient-to-br from-indigo-50 to-purple-100"
     >
-      {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <Bell className="text-indigo-600" size={28} />
         <h1 className="text-3xl font-extrabold text-indigo-800 drop-shadow-sm">
@@ -39,7 +39,6 @@ const StudentAnnouncements = () => {
         </h1>
       </div>
 
-      {/* Content */}
       <div className="space-y-4">
         {isLoading && (
           <div className="text-center text-gray-500 text-sm">Loading announcements...</div>
@@ -68,7 +67,7 @@ const StudentAnnouncements = () => {
 
             {announcement.fileName && (
               <a
-                href={`http://localhost:8080/api/announcements/${announcement.id}/file`}
+                href={`${BASE_URL}/api/announcements/${announcement.id}/file`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-sm text-blue-600 hover:underline gap-1"

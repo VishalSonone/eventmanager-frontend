@@ -15,37 +15,36 @@ const AdminSettings = () => {
   const [success, setSuccess] = useState("");
 
   useEffect(() => {
-  const fetchAdminDetails = async () => {
-    try {
-      const stored = localStorage.getItem("user");
-      const parsed = stored ? JSON.parse(stored) : null;
-      const adminEmail = parsed?.admin?.email;
+    const fetchAdminDetails = async () => {
+      try {
+        const stored = localStorage.getItem("user");
+        const parsed = stored ? JSON.parse(stored) : null;
+        const adminEmail = parsed?.admin?.email;
 
-      if (!adminEmail) {
-        setError("Admin email not found in local storage.");
+        if (!adminEmail) {
+          setError("Admin email not found in local storage.");
+          setIsLoading(false);
+          return;
+        }
+
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/details?email=${adminEmail}`);
+        if (!response.ok) throw new Error("Failed to fetch admin details.");
+
+        const data = await response.json();
+        setAdminDetails({
+          ...data,
+          password: "",
+          confirmPassword: ""
+        });
+      } catch (error) {
+        setError("Failed to fetch admin details");
+      } finally {
         setIsLoading(false);
-        return;
       }
+    };
 
-      const response = await fetch(`/api/admin/details?email=${adminEmail}`);
-      if (!response.ok) throw new Error("Failed to fetch admin details.");
-
-      const data = await response.json();
-      setAdminDetails({
-        ...data,
-        password: "",
-        confirmPassword: ""
-      });
-    } catch (error) {
-      setError("Failed to fetch admin details");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  fetchAdminDetails();
-}, []);
-
+    fetchAdminDetails();
+  }, []);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -58,7 +57,7 @@ const AdminSettings = () => {
     }
 
     try {
-      const response = await fetch("/api/admin/update", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

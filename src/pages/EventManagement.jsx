@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Users, X } from "lucide-react";
+import { api } from "../api";
 
 function EventManagement() {
   const [events, setEvents] = useState([]);
@@ -23,7 +24,7 @@ function EventManagement() {
 
   const fetchEvents = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/events");
+      const res = await api.get("/api/events");
       const data = await res.json();
       const today = new Date().toISOString().split("T")[0];
       const processed = data.map((e) => ({
@@ -39,18 +40,16 @@ function EventManagement() {
   const fetchParticipants = async (eventId) => {
     setLoadingParticipants(true);
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/enrollments/${eventId}/participants`
-      );
+      const response = await api.get(`/api/enrollments/${eventId}/participants`);
       const participants = await response.json();
       setEvents((prevEvents) =>
         prevEvents.map((event) =>
           event.id === eventId ? { ...event, participants } : event
         )
       );
-      setLoadingParticipants(false);
     } catch (error) {
       console.error("Error fetching participants:", error);
+    } finally {
       setLoadingParticipants(false);
     }
   };
@@ -72,14 +71,13 @@ function EventManagement() {
   };
 
   const handleAddOrUpdateEvent = async () => {
-    const method = editingEventId ? "PUT" : "POST";
+    const method = editingEventId ? "put" : "post";
     const url = editingEventId
-      ? `http://localhost:8080/api/events/${editingEventId}`
-      : "http://localhost:8080/api/events";
+      ? `/api/events/${editingEventId}`
+      : "/api/events";
 
     try {
-      const res = await fetch(url, {
-        method,
+      const res = await api[method](url, {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newEvent),
       });
@@ -98,9 +96,7 @@ function EventManagement() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/events/${id}`, {
-        method: "DELETE",
-      });
+      const res = await api.delete(`/api/events/${id}`);
       if (!res.ok) throw new Error("Failed to delete event");
       setEvents((prev) => prev.filter((e) => e.id !== id));
       setSuccessMessage("🗑 Event deleted successfully!");
@@ -127,10 +123,7 @@ function EventManagement() {
 
   const removeParticipant = async (eventId, studentId) => {
     try {
-      const res = await fetch(
-        `http://localhost:8080/api/enrollments/${eventId}/student/${studentId}`,
-        { method: "DELETE" }
-      );
+      const res = await api.delete(`/api/enrollments/${eventId}/student/${studentId}`);
       if (!res.ok) throw new Error("Failed to remove participant");
       await fetchParticipants(eventId);
     } catch (err) {

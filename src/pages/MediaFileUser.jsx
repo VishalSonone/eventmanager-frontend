@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { api } from "../api"; // adjust path if needed
 
 function MediaFileUser() {
   const [files, setFiles] = useState([]);
@@ -6,32 +7,21 @@ function MediaFileUser() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080
-/api/media/list")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("📂 Media files fetched:", data);
-        setFiles(data);
-      })
-      .catch((err) => console.error("❌ Fetch error:", err));
+    api.get("/api/media/list")
+      .then(res => res.json())
+      .then(setFiles)
+      .catch(() => {});
   }, []);
 
-  // 🛠 Fix: Proper filter based on tab
   const filteredFiles = files.filter((file) => {
     const matchesType =
       (activeTab === "images" && file.fileType === "image") ||
       (activeTab === "documents" && file.fileType === "document");
-
     const matchesSearch = file.originalName
       ?.toLowerCase()
       .includes(searchTerm.toLowerCase());
-
     return matchesType && matchesSearch;
   });
-
-  console.log("🧮 Active tab:", activeTab);
-  console.log("🔍 Search term:", searchTerm);
-  console.log("🎯 Filtered files:", filteredFiles);
 
   return (
     <div className="p-6 space-y-6">
@@ -65,8 +55,7 @@ function MediaFileUser() {
           <div key={file.filename} className="border rounded p-3 shadow hover:shadow-lg bg-white">
             {file.fileType === "image" ? (
               <img
-                src={`http://localhost:8080
-${file.filePath}`}
+                src={file.filePath.startsWith("/") ? file.filePath : `/uploads/media/${file.filename}`}
                 alt={file.originalName}
                 className="w-full h-40 object-cover rounded"
               />
@@ -78,8 +67,7 @@ ${file.filePath}`}
 
             <div className="mt-2 text-sm flex justify-between items-center">
               <a
-                href={`http://localhost:8080
-${file.filePath}`}
+                href={file.filePath}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
@@ -87,9 +75,9 @@ ${file.filePath}`}
                 Preview
               </a>
               <a
-                href={`http://localhost:8080
-${file.filePath}`}
-                download
+                href={file.filePath}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-green-600 hover:underline"
               >
                 Download
@@ -97,9 +85,8 @@ ${file.filePath}`}
             </div>
           </div>
         ))}
-
         {filteredFiles.length === 0 && (
-          <p className="text-gray-500 italic">No files found.</p>
+          <p className="text-gray-500 italic col-span-full">No files found.</p>
         )}
       </div>
     </div>

@@ -19,7 +19,7 @@ const BugReportForm = () => {
     formData.append("message", form.message);
     if (screenshot) formData.append("screenshot", screenshot);
 
-    const res = await fetch("http://localhost:8080/api/bug-reports", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/bug-reports`, {
       method: "POST",
       body: formData,
     });

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { CalendarDays, MapPin, User2 } from "lucide-react";
+import { api } from "../api";
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -9,7 +10,8 @@ const EventDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/events/${id}`)
+    api
+      .get(`/api/events/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setEvent(data);
@@ -64,7 +66,6 @@ const EventDetails = () => {
           </div>
         </div>
 
-        {/* Optional Notes */}
         <div className="pt-4 border-t text-gray-700">
           <h3 className="text-lg font-semibold mb-2">Additional Notes:</h3>
           <textarea
@@ -75,7 +76,6 @@ const EventDetails = () => {
           />
         </div>
 
-        {/* Back Button */}
         <div className="pt-6 text-center">
           <button
             onClick={() => navigate("/events")}

@@ -12,7 +12,6 @@ const About = () => {
         transition={{ duration: 1 }}
         className="bg-white shadow-xl rounded-2xl w-full max-w-md p-6 text-center space-y-4"
       >
-        {/* Logo */}
         <div className="flex justify-center">
           <img
             src="/logo.jpeg"
@@ -21,17 +20,14 @@ const About = () => {
           />
         </div>
 
-        {/* Title */}
         <h1 className="text-2xl font-bold text-indigo-700">
           Campus Event Manager
         </h1>
 
-        {/* Description */}
         <p className="text-sm text-gray-600">
           One place for all your college event needs — announcements, results, and celebrations.
         </p>
 
-        {/* Organized By */}
         <div className="bg-indigo-50 rounded-xl p-3 text-indigo-700 shadow-inner text-sm">
           <p className="font-medium">📌 Organized by</p>
           <p className="font-semibold leading-tight">
@@ -40,14 +36,12 @@ const About = () => {
           </p>
         </div>
 
-        {/* Developer */}
         <div className="text-gray-700 text-sm">
           <p className="font-medium">👨‍💻 Developed by</p>
           <p className="font-semibold text-indigo-700">Vishal Sonone</p>
           <p className="italic">MCA Student, SOCS</p>
         </div>
 
-        {/* Social Links */}
         <div className="flex justify-center gap-4 text-indigo-600 text-xl mt-2">
           <a href="http://github.com/VishalSonone" target="_blank" rel="noreferrer">
             <FaGithub />
@@ -63,7 +57,6 @@ const About = () => {
           </a>
         </div>
 
-        {/* Home Button */}
         <Link
           to="/"
           className="inline-block mt-2 px-5 py-2 bg-indigo-600 text-white rounded-full text-sm hover:bg-indigo-700 transition"

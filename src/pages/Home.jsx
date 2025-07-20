@@ -22,16 +22,47 @@ const Home = () => {
           animate={{ x: 50, y: 200 }}
           transition={{ duration: 12, repeat: Infinity, repeatType: "mirror" }}
         />
+        <motion.div
+          className="absolute w-28 h-28 bg-purple-300 rounded-full opacity-30 blur-2xl"
+          initial={{ x: 500, y: 100 }}
+          animate={{ x: 150, y: 300 }}
+          transition={{ duration: 16, repeat: Infinity, repeatType: "mirror" }}
+        />
       </div>
 
       {/* Content */}
       <div className="relative z-10 text-center max-w-xl">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-indigo-700 drop-shadow mb-4">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="text-4xl sm:text-5xl font-extrabold text-indigo-700 drop-shadow mb-4"
+        >
           Welcome to <span className="text-purple-600">EventManager</span>
-        </h1>
-        <p className="text-gray-700 text-base sm:text-lg">
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="text-gray-700 text-base sm:text-lg"
+        >
           Your centralized hub for all college events — smart, stylish & easy to use.
-        </p>
+        </motion.p>
+
+        {/* CTA Button */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="mt-8"
+        >
+          <a
+            href="/events"
+            className="px-6 py-3 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition"
+          >
+            View Events
+          </a>
+        </motion.div>
       </div>
     </motion.div>
   );

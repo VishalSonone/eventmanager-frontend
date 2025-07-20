@@ -17,7 +17,7 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8080/api/admin/login", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -33,7 +33,6 @@ const AdminLogin = () => {
       localStorage.setItem("user", JSON.stringify({ admin: data }));
       localStorage.setItem("userType", "admin");
 
-      // Optional success animation
       document.body.classList.add("bg-green-50");
       setTimeout(() => {
         document.body.classList.remove("bg-green-50");
@@ -60,7 +59,6 @@ const AdminLogin = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email */}
           <div className="relative">
             <FiMail className="absolute top-3.5 left-3 text-indigo-500" />
             <input
@@ -73,7 +71,6 @@ const AdminLogin = () => {
             />
           </div>
 
-          {/* Password */}
           <div className="relative">
             <FiLock className="absolute top-3.5 left-3 text-indigo-500" />
             <input
@@ -86,7 +83,6 @@ const AdminLogin = () => {
             />
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
             disabled={isLoading}

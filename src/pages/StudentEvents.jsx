@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../api";
 
 const StudentEvents = () => {
   const { user } = useUser();
@@ -17,11 +18,10 @@ const StudentEvents = () => {
         setIsLoading(true);
         setError(null);
 
-        const eventsResponse = await fetch('http://localhost:8080/api/events');
-        if (!eventsResponse.ok) throw new Error('Failed to fetch events');
+        const eventsResponse = await fetch(`${BASE_URL}/api/events`);
+        if (!eventsResponse.ok) throw new Error("Failed to fetch events");
         const eventsData = await eventsResponse.json();
 
-        // Split events based on today's date
         const today = new Date().toISOString().split("T")[0];
         const enrichedEvents = eventsData.map(e => ({
           ...e,
@@ -31,7 +31,7 @@ const StudentEvents = () => {
 
         const counts = {};
         for (const event of enrichedEvents) {
-          const response = await fetch(`http://localhost:8080/api/events/${event.id}/with-participants`);
+          const response = await fetch(`${BASE_URL}/api/events/${event.id}/with-participants`);
           if (response.ok) {
             const eventWithParticipants = await response.json();
             counts[event.id] = eventWithParticipants.enrollments?.length || 0;
@@ -40,8 +40,8 @@ const StudentEvents = () => {
         setParticipantsCount(counts);
 
         if (student?.id) {
-          const enrollmentsResponse = await fetch(`http://localhost:8080/api/enrollments/student/${student.id}`);
-          if (!enrollmentsResponse.ok) throw new Error('Failed to fetch enrollments');
+          const enrollmentsResponse = await fetch(`${BASE_URL}/api/enrollments/student/${student.id}`);
+          if (!enrollmentsResponse.ok) throw new Error("Failed to fetch enrollments");
           const enrollmentsData = await enrollmentsResponse.json();
           setEnrollments(enrollmentsData);
         }
@@ -107,7 +107,6 @@ const StudentEvents = () => {
 
   return (
     <div className="p-6 space-y-10 bg-gradient-to-br from-indigo-50 to-purple-100 min-h-screen">
-      {/* Upcoming Events */}
       <div>
         <h1 className="text-3xl font-bold text-indigo-800 mb-6">Upcoming Events</h1>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -119,7 +118,6 @@ const StudentEvents = () => {
         </div>
       </div>
 
-      {/* Completed Events */}
       <div>
         <h2 className="text-2xl font-bold text-indigo-800 mb-4">Completed Events</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -131,7 +129,6 @@ const StudentEvents = () => {
         </div>
       </div>
 
-      {/* Student Enrollments */}
       <div>
         <h2 className="text-2xl font-bold text-indigo-800 mb-4">Your Enrollments</h2>
         {enrollments.length > 0 ? (

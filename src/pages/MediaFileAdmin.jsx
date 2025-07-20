@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { api } from "../api"; // adjust path if needed
+import "react-toastify/dist/ReactToastify.css";
 
 function MediaFileAdmin() {
   const [files, setFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [filters, setFilters] = useState({
     search: "",
     type: "all",
@@ -24,11 +24,11 @@ function MediaFileAdmin() {
     if (filters.fromDate) params.append("fromDate", filters.fromDate);
     if (filters.toDate) params.append("toDate", filters.toDate);
 
-    const res = await fetch(`/api/media/list?${params.toString()}`);
-    if (res.ok) {
+    try {
+      const res = await api.get(`/api/media/list?${params.toString()}`);
       const data = await res.json();
       setFiles(data);
-    } else {
+    } catch {
       toast.error("Error fetching files");
     }
   };
@@ -45,62 +45,46 @@ function MediaFileAdmin() {
     formData.append("eventName", metadata.eventName || "");
 
     try {
-      const res = await fetch("/api/media/upload", {
-        method: "POST",
-        body: formData
-      });
-
-      if (res.ok) {
-        toast.success("Upload successful");
-        setSelectedFile(null);
-        setUploadProgress(0);
-        fetchFiles();
-      } else {
-        toast.error("Upload failed");
-      }
+      const res = await api.post("/api/media/upload", formData);
+      if (!res.ok) throw new Error();
+      toast.success("Upload successful");
+      setSelectedFile(null);
+      fetchFiles();
     } catch {
-      toast.error("Error uploading file");
+      toast.error("Upload failed");
     }
   };
 
   const handleDelete = async (filename) => {
-    const res = await fetch(`/api/media/delete/${filename}`, {
-      method: "DELETE"
-    });
-
-    if (res.ok) {
+    try {
+      const res = await api.delete(`/api/media/delete/${filename}`);
+      if (!res.ok) throw new Error();
       toast.info("File deleted");
       fetchFiles();
-    } else {
+    } catch {
       toast.error("Delete failed");
     }
   };
 
   const handleSave = async (filename) => {
-    const res = await fetch(`/api/media/update/${filename}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(metadata)
-    });
-
-    if (res.ok) {
+    try {
+      const res = await api.put(`/api/media/update/${filename}`, metadata);
+      if (!res.ok) throw new Error();
       toast.success("Metadata updated");
       setEditing(null);
       fetchFiles();
-    } else {
+    } catch {
       toast.error("Update failed");
     }
   };
 
   const isImage = name => /\.(jpg|jpeg|png|gif|webp)$/i.test(name);
-  const isDocument = name => /\.(pdf|docx?|txt|pptx?)$/i.test(name);
 
   return (
     <div className="p-6 space-y-4">
       <ToastContainer />
       <h2 className="text-2xl font-bold">🎛 Admin Media Manager</h2>
 
-      {/* Upload */}
       <div className="flex items-center gap-3">
         <input type="file" onChange={e => setSelectedFile(e.target.files[0])} />
         <input
@@ -115,7 +99,6 @@ function MediaFileAdmin() {
         </button>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-wrap gap-3">
         <input
           type="text"
@@ -142,7 +125,6 @@ function MediaFileAdmin() {
         />
       </div>
 
-      {/* File list */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {files.map(f => (
           <div key={f.filename} className="border rounded p-4 space-y-2 bg-white">
@@ -156,7 +138,6 @@ function MediaFileAdmin() {
               <div className="text-gray-700 font-semibold">📄 {f.originalName}</div>
             )}
             <div><strong>Uploaded:</strong> {new Date(f.uploadedAt).toLocaleString()}</div>
-
             <div>
               {editing === f.filename ? (
                 <>
@@ -180,7 +161,6 @@ function MediaFileAdmin() {
                 </>
               )}
             </div>
-
             <div className="flex justify-between mt-2 text-sm">
               <a href={f.filePath} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                 {isImage(f.filename) ? "Preview" : "Download"}

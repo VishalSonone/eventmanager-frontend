@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { api } from "../api";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -80,12 +81,7 @@ const Register = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:8080/api/students/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
-      });
-
+      const res = await api.post("/api/students/register", formData);
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || "Registration failed");

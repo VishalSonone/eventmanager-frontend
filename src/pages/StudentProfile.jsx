@@ -2,6 +2,7 @@ import { useUser } from "../context/UserContext";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../api";
 
 const StudentProfile = () => {
   const { currentUserData, currentUserId, isLoading: contextLoading } = useUser();
@@ -18,8 +19,7 @@ const StudentProfile = () => {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch(`http://localhost:8080
-/api/students/${currentUserId}/events`, {
+        const response = await fetch(`${BASE_URL}/api/students/${currentUserId}/events`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
@@ -95,14 +95,12 @@ const StudentProfile = () => {
       transition={{ duration: 0.4 }}
       className="bg-gradient-to-br from-indigo-50 to-purple-100 min-h-screen p-8"
     >
-      {/* Header */}
       <div className="mb-8">
         <h2 className="text-4xl font-extrabold text-indigo-800 drop-shadow flex items-center gap-2">
           👤 Student Profile
         </h2>
       </div>
 
-      {/* Details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow mb-10">
         <Field label="Name" value={currentUserData.name} />
         <Field label="Email" value={currentUserData.email} />
@@ -113,7 +111,6 @@ const StudentProfile = () => {
         <Field label="Status" value={currentUserData.status} />
       </div>
 
-      {/* Events */}
       <div className="space-y-10">
         <EventSection title="📅 Upcoming Events" color="green" events={upcomingEvents} />
         <EventSection title="✅ Completed Events" color="gray" events={completedEvents} />

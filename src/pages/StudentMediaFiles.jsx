@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiImage, FiFileText } from "react-icons/fi";
 import { FaDownload, FaEye } from "react-icons/fa";
+import { BASE_URL } from "../api";
 
 const StudentMediaFiles = () => {
   const [files, setFiles] = useState([]);
@@ -8,7 +9,7 @@ const StudentMediaFiles = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/media/list")
+    fetch(`${BASE_URL}/api/media/list`)
       .then((res) => res.json())
       .then((data) => setFiles(data))
       .catch((err) => console.error("Fetch error:", err));
@@ -32,13 +33,11 @@ const StudentMediaFiles = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto animate-fade-in">
-      {/* Header */}
       <div className="mb-8">
         <h2 className="text-4xl font-extrabold text-indigo-700 drop-shadow-lg">📁 Your Media Gallery</h2>
         <p className="text-gray-600 mt-1">Explore uploaded photos and documents with preview & download.</p>
       </div>
 
-      {/* Controls */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div className="flex space-x-3">
           <button
@@ -72,7 +71,6 @@ const StudentMediaFiles = () => {
         />
       </div>
 
-      {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredFiles.length > 0 ? (
           filteredFiles.map((file) => (
@@ -80,14 +78,13 @@ const StudentMediaFiles = () => {
               key={file.id}
               className="rounded-2xl bg-white shadow-lg p-4 relative hover:shadow-indigo-300 transition-all border border-gray-200"
             >
-              {/* Badge */}
               <span className="absolute top-2 right-2 text-xs font-medium bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full shadow-sm">
                 {file.fileType.toUpperCase()}
               </span>
 
               {file.fileType.toLowerCase() === "image" ? (
                 <img
-                  src={`http://localhost:8080${file.filePath}`}
+                  src={`${BASE_URL}${file.filePath}`}
                   alt={file.originalName}
                   className="w-full h-48 object-cover rounded-xl transform hover:scale-105 transition duration-300"
                 />
@@ -100,7 +97,7 @@ const StudentMediaFiles = () => {
 
               <div className="mt-4 flex justify-between text-sm text-gray-700 font-medium">
                 <a
-                  href={`http://localhost:8080${file.filePath}`}
+                  href={`${BASE_URL}${file.filePath}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-1 text-blue-600 hover:underline"
@@ -108,14 +105,13 @@ const StudentMediaFiles = () => {
                   <FaEye /> <span>Preview</span>
                 </a>
                 <a
-  href={`http://localhost:8080${file.filePath}`}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="flex items-center space-x-1 text-green-600 hover:underline"
->
-  <FaDownload /> <span>Download</span>
-</a>
-
+                  href={`${BASE_URL}${file.filePath}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-1 text-green-600 hover:underline"
+                >
+                  <FaDownload /> <span>Download</span>
+                </a>
               </div>
             </div>
           ))

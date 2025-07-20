@@ -93,7 +93,6 @@ const Login = () => {
           </button>
         </form>
 
-        {/* 👇 Add link to Register */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Don’t have an account?{" "}

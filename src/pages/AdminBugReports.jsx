@@ -1,19 +1,29 @@
 import { useEffect, useState } from "react";
+import { api } from "../api";
 
 const AdminBugReports = () => {
   const [reports, setReports] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/bug-reports")
-      .then((res) => res.json())
-      .then(setReports);
+    const fetchReports = async () => {
+      try {
+        const res = await api.get("/api/bug-reports");
+        const data = await res.json();
+        setReports(data);
+      } catch (error) {
+        console.error("Failed to fetch bug reports:", error);
+      }
+    };
+    fetchReports();
   }, []);
 
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:8080/api/bug-reports/${id}`, {
-      method: "DELETE",
-    });
-    setReports((prev) => prev.filter((r) => r.id !== id));
+    try {
+      await api.delete(`/api/bug-reports/${id}`);
+      setReports((prev) => prev.filter((r) => r.id !== id));
+    } catch (error) {
+      console.error("Failed to delete bug report:", error);
+    }
   };
 
   return (
@@ -28,7 +38,7 @@ const AdminBugReports = () => {
           <p>{r.message}</p>
           {r.screenshotUrl && (
             <a
-              href={`http://localhost:8080${r.screenshotUrl}`}
+              href={`${import.meta.env.VITE_API_URL}${r.screenshotUrl}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 underline"
