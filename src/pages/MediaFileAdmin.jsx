@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,75 +16,103 @@ function MediaFileAdmin() {
   const [editing, setEditing] = useState(null);
   const [metadata, setMetadata] = useState({ originalName: "", eventName: "" });
 
-  const fetchFiles = () => {
-    axios.get("/api/media/list", { params: filters })
-      .then(res => setFiles(res.data))
-      .catch(err => toast.error("Error fetching files"));
+  const fetchFiles = async () => {
+    const params = new URLSearchParams();
+    if (filters.search) params.append("search", filters.search);
+    if (filters.type !== "all") params.append("type", filters.type);
+    if (filters.eventName) params.append("eventName", filters.eventName);
+    if (filters.fromDate) params.append("fromDate", filters.fromDate);
+    if (filters.toDate) params.append("toDate", filters.toDate);
+
+    const res = await fetch(`/api/media/list?${params.toString()}`);
+    if (res.ok) {
+      const data = await res.json();
+      setFiles(data);
+    } else {
+      toast.error("Error fetching files");
+    }
   };
 
-  useEffect(() => fetchFiles(), [filters]);
+  useEffect(() => {
+    fetchFiles();
+  }, [filters]);
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (!selectedFile) return toast.warn("Please select a file");
-    const data = new FormData();
-    data.append("file", selectedFile);
-    data.append("eventName", metadata.eventName || '');
 
-    axios.post("/api/media/upload", data, {
-      onUploadProgress: ({ loaded, total }) => setUploadProgress((loaded/total)*100)
-    })
-      .then(() => {
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("eventName", metadata.eventName || "");
+
+    try {
+      const res = await fetch("/api/media/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      if (res.ok) {
         toast.success("Upload successful");
         setSelectedFile(null);
         setUploadProgress(0);
         fetchFiles();
-      })
-      .catch(() => toast.error("Upload failed"));
+      } else {
+        toast.error("Upload failed");
+      }
+    } catch {
+      toast.error("Error uploading file");
+    }
   };
 
-  const handleDelete = filename => {
-    axios.delete(`/api/media/delete/${filename}`)
-      .then(() => {
-        toast.info("File deleted");
-        fetchFiles();
-      })
-      .catch(() => toast.error("Delete failed"));
+  const handleDelete = async (filename) => {
+    const res = await fetch(`/api/media/delete/${filename}`, {
+      method: "DELETE"
+    });
+
+    if (res.ok) {
+      toast.info("File deleted");
+      fetchFiles();
+    } else {
+      toast.error("Delete failed");
+    }
   };
 
-  const handleSave = filename => {
-    axios.put(`/api/media/update/${filename}`, metadata)
-      .then(() => {
-        toast.success("Metadata updated");
-        setEditing(null);
-        fetchFiles();
-      })
-      .catch(() => toast.error("Update failed"));
+  const handleSave = async (filename) => {
+    const res = await fetch(`/api/media/update/${filename}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(metadata)
+    });
+
+    if (res.ok) {
+      toast.success("Metadata updated");
+      setEditing(null);
+      fetchFiles();
+    } else {
+      toast.error("Update failed");
+    }
   };
 
   const isImage = name => /\.(jpg|jpeg|png|gif|webp)$/i.test(name);
-  const isDocument = name=> /\.(pdf|docx?|txt|pptx?)$/i.test(name);
+  const isDocument = name => /\.(pdf|docx?|txt|pptx?)$/i.test(name);
 
   return (
     <div className="p-6 space-y-4">
       <ToastContainer />
       <h2 className="text-2xl font-bold">🎛 Admin Media Manager</h2>
 
-      {/* Upload section */}
+      {/* Upload */}
       <div className="flex items-center gap-3">
         <input type="file" onChange={e => setSelectedFile(e.target.files[0])} />
         <input
           type="text"
           placeholder="Optional: Event Name"
           value={metadata.eventName}
-          onChange={e => setMetadata({...metadata, eventName: e.target.value})}
+          onChange={e => setMetadata({ ...metadata, eventName: e.target.value })}
           className="border px-2 py-1 rounded"
         />
         <button onClick={handleUpload} className="bg-green-600 text-white px-3 py-1 rounded">
           Upload
         </button>
-        {uploadProgress > 0 && (
-          <progress value={uploadProgress} max="100" className="w-1/4" />
-        )}
       </div>
 
       {/* Filters */}
@@ -95,11 +122,11 @@ function MediaFileAdmin() {
           placeholder="🔍 Search"
           className="border px-2 py-1 rounded"
           value={filters.search}
-          onChange={e => setFilters(f => ({...f, search: e.target.value}))}
+          onChange={e => setFilters(f => ({ ...f, search: e.target.value }))}
         />
         <select
           value={filters.type}
-          onChange={e => setFilters(f => ({...f, type: e.target.value}))}
+          onChange={e => setFilters(f => ({ ...f, type: e.target.value }))}
           className="border px-2 py-1 rounded"
         >
           <option value="all">All Types</option>
@@ -111,47 +138,38 @@ function MediaFileAdmin() {
           placeholder="Event Name"
           className="border px-2 py-1 rounded"
           value={filters.eventName}
-          onChange={e => setFilters(f => ({...f, eventName: e.target.value}))}
-        />
-        <input
-          type="date"
-          value={filters.fromDate}
-          onChange={e => setFilters(f => ({...f, fromDate: e.target.value}))}
-          className="border px-2 py-1 rounded"
-        />
-        <input
-          type="date"
-          value={filters.toDate}
-          onChange={e => setFilters(f => ({...f, toDate: e.target.value}))}
-          className="border px-2 py-1 rounded"
+          onChange={e => setFilters(f => ({ ...f, eventName: e.target.value }))}
         />
       </div>
 
-      {/* Admin files grid */}
+      {/* File list */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {files.map(f => (
           <div key={f.filename} className="border rounded p-4 space-y-2 bg-white">
             {isImage(f.filename) ? (
-              <img src={f.filePath} alt={f.originalName} className="w-full h-40 object-cover rounded" />
+              <img
+                src={f.filePath.startsWith("/") ? f.filePath : `/uploads/media/${f.filename}`}
+                alt={f.originalName}
+                className="w-full h-40 object-cover rounded"
+              />
             ) : (
               <div className="text-gray-700 font-semibold">📄 {f.originalName}</div>
             )}
             <div><strong>Uploaded:</strong> {new Date(f.uploadedAt).toLocaleString()}</div>
 
-            {/* Editable metadata */}
             <div>
               {editing === f.filename ? (
                 <>
                   <input
                     type="text"
                     value={metadata.originalName}
-                    onChange={e => setMetadata(md => ({...md, originalName: e.target.value}))}
+                    onChange={e => setMetadata(m => ({ ...m, originalName: e.target.value }))}
                     className="border px-2 py-1 rounded w-full"
                   />
                   <input
                     type="text"
                     value={metadata.eventName}
-                    onChange={e => setMetadata(md => ({...md, eventName: e.target.value}))}
+                    onChange={e => setMetadata(m => ({ ...m, eventName: e.target.value }))}
                     className="border px-2 py-1 rounded w-full mt-1"
                   />
                 </>
@@ -163,7 +181,6 @@ function MediaFileAdmin() {
               )}
             </div>
 
-            {/* Actions */}
             <div className="flex justify-between mt-2 text-sm">
               <a href={f.filePath} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                 {isImage(f.filename) ? "Preview" : "Download"}

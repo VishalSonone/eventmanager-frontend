@@ -17,7 +17,7 @@ function StudentManagement() {
   const [animateRow, setAnimateRow] = useState(null);
 
   useEffect(() => {
-    fetch("https://eventmanager-backend-1-5121.onrender.com/api/students")
+    fetch("http://localhost:8080/api/students")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch students");
         return res.json();
@@ -48,7 +48,7 @@ function StudentManagement() {
   };
 
   const handleAction = (id, action) => {
-    fetch(`https://eventmanager-backend-1-5121.onrender.com/api/students/${id}/${action}`, {
+    fetch(`http://localhost:8080/api/students/${id}/${action}`, {
       method: "PUT",
     })
       .then(() => {
@@ -63,7 +63,7 @@ function StudentManagement() {
   };
 
   const handleDelete = (id) => {
-    fetch(`https://eventmanager-backend-1-5121.onrender.com/api/students/${id}`, {
+    fetch(`http://localhost:8080/api/students/${id}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -84,7 +84,7 @@ function StudentManagement() {
   };
 
   const saveEdit = (id) => {
-    fetch(`https://eventmanager-backend-1-5121.onrender.com/api/students/${id}`, {
+    fetch(`http://localhost:8080/api/students/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editData),

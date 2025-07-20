@@ -49,16 +49,16 @@ const About = () => {
 
         {/* Social Links */}
         <div className="flex justify-center gap-4 text-indigo-600 text-xl mt-2">
-          <a href="https://github.com/VishalSonone" target="_blank" rel="noreferrer">
+          <a href="http://github.com/VishalSonone" target="_blank" rel="noreferrer">
             <FaGithub />
           </a>
-          <a href="https://www.linkedin.com/in/vishalsonone/?original_referer=https%3A%2F%2Fgithub.com%2F" target="_blank" rel="noreferrer">
+          <a href="http://www.linkedin.com/in/vishalsonone/?original_referer=http%3A%2F%2Fgithub.com%2F" target="_blank" rel="noreferrer">
             <FaLinkedin />
           </a>
-          <a href="https://instagram.com/vishalsonone" target="_blank" rel="noreferrer">
+          <a href="http://instagram.com/vishalsonone" target="_blank" rel="noreferrer">
             <FaInstagram />
           </a>
-          <a href="https://wa.me/9370669660" target="_blank" rel="noreferrer">
+          <a href="http://wa.me/9370669660" target="_blank" rel="noreferrer">
             <FaWhatsapp />
           </a>
         </div>

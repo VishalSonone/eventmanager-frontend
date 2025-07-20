@@ -6,7 +6,8 @@ function MediaFileUser() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch("https://eventmanager-backend-1-5121.onrender.com/api/media/list")
+    fetch("http://localhost:8080
+/api/media/list")
       .then((res) => res.json())
       .then((data) => {
         console.log("📂 Media files fetched:", data);
@@ -64,7 +65,8 @@ function MediaFileUser() {
           <div key={file.filename} className="border rounded p-3 shadow hover:shadow-lg bg-white">
             {file.fileType === "image" ? (
               <img
-                src={`https://eventmanager-backend-1-5121.onrender.com${file.filePath}`}
+                src={`http://localhost:8080
+${file.filePath}`}
                 alt={file.originalName}
                 className="w-full h-40 object-cover rounded"
               />
@@ -76,7 +78,8 @@ function MediaFileUser() {
 
             <div className="mt-2 text-sm flex justify-between items-center">
               <a
-                href={`https://eventmanager-backend-1-5121.onrender.com${file.filePath}`}
+                href={`http://localhost:8080
+${file.filePath}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
@@ -84,7 +87,8 @@ function MediaFileUser() {
                 Preview
               </a>
               <a
-                href={`https://eventmanager-backend-1-5121.onrender.com${file.filePath}`}
+                href={`http://localhost:8080
+${file.filePath}`}
                 download
                 className="text-green-600 hover:underline"
               >

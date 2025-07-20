@@ -144,6 +144,7 @@ const AdminDashboard = () => {
               <Link to="/admin/mediafiles" className="hover:underline">Media</Link>
               <Link to="/admin/announcements" className="hover:underline">Announcements</Link>
               <Link to="/admin/settings" className="hover:underline">Settings</Link>
+              <Link to="/admin/bug-reports" className="hover:underline">BugReports</Link>
               <button
                 onClick={handleLogout}
                 className="hover:underline text-red-200 ml-4"

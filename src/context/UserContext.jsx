@@ -8,7 +8,7 @@ export const UserProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const initializeAuth = async () => {
+    const initializeAuth = () => {
       try {
         const storedUser = localStorage.getItem("user");
         const storedType = localStorage.getItem("userType");
@@ -16,21 +16,19 @@ export const UserProvider = ({ children }) => {
         if (storedUser && storedType) {
           const parsedUser = JSON.parse(storedUser);
 
-          if (
-            !parsedUser ||
-            (parsedUser.student && !parsedUser.student.id) ||
-            (parsedUser.admin && !parsedUser.admin.id)
-          ) {
-            console.warn("Invalid user data in storage, clearing...");
-            logout();
-            return;
-          }
+          const isValidStudent = storedType === "student" && parsedUser?.student?.id;
+          const isValidAdmin = storedType === "admin" && parsedUser?.admin?.id;
 
-          setUser(parsedUser);
-          setUserType(storedType);
+          if (isValidStudent || isValidAdmin) {
+            setUser(parsedUser);
+            setUserType(storedType);
+          } else {
+            console.warn("Invalid user data in storage. Logging out...");
+            logout();
+          }
         }
-      } catch (error) {
-        console.error("Failed to initialize auth:", error);
+      } catch (err) {
+        console.error("Auth load failed:", err);
         logout();
       } finally {
         setIsLoading(false);
@@ -55,7 +53,6 @@ export const UserProvider = ({ children }) => {
       setUserType(type);
       localStorage.setItem("user", JSON.stringify(userData));
       localStorage.setItem("userType", type);
-
       console.log("Login successful for:", type, userData);
     } catch (error) {
       console.error("Login error:", error);

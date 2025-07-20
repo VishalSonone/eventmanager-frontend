@@ -8,16 +8,26 @@ const StudentMediaFiles = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch("https://eventmanager-backend-1-5121.onrender.com/api/media/list")
+    fetch("http://localhost:8080/api/media/list")
       .then((res) => res.json())
       .then((data) => setFiles(data))
       .catch((err) => console.error("Fetch error:", err));
   }, []);
 
   const filteredFiles = files.filter((file) => {
-    const isImage = activeTab === "images" ? file.fileType === "image" : file.fileType === "document";
-    const matchesSearch = file.originalName?.toLowerCase().includes(searchTerm.toLowerCase());
-    return isImage && matchesSearch;
+    const type = file.fileType?.toLowerCase();
+    const isImage = type === "image";
+    const isDocument = ["pdf", "doc", "docx", "xls", "xlsx"].includes(type);
+
+    const matchesTab =
+      (activeTab === "images" && isImage) ||
+      (activeTab === "documents" && isDocument);
+
+    const matchesSearch = file.originalName
+      ?.toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    return matchesTab && matchesSearch;
   });
 
   return (
@@ -75,9 +85,9 @@ const StudentMediaFiles = () => {
                 {file.fileType.toUpperCase()}
               </span>
 
-              {file.fileType === "image" ? (
+              {file.fileType.toLowerCase() === "image" ? (
                 <img
-                  src={`https://eventmanager-backend-1-5121.onrender.com${file.filePath}`}
+                  src={`http://localhost:8080${file.filePath}`}
                   alt={file.originalName}
                   className="w-full h-48 object-cover rounded-xl transform hover:scale-105 transition duration-300"
                 />
@@ -90,7 +100,7 @@ const StudentMediaFiles = () => {
 
               <div className="mt-4 flex justify-between text-sm text-gray-700 font-medium">
                 <a
-                  href={`https://eventmanager-backend-1-5121.onrender.com${file.filePath}`}
+                  href={`http://localhost:8080${file.filePath}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-1 text-blue-600 hover:underline"
@@ -98,12 +108,14 @@ const StudentMediaFiles = () => {
                   <FaEye /> <span>Preview</span>
                 </a>
                 <a
-                  href={`https://eventmanager-backend-1-5121.onrender.com${file.filePath}`}
-                  download
-                  className="flex items-center space-x-1 text-green-600 hover:underline"
-                >
-                  <FaDownload /> <span>Download</span>
-                </a>
+  href={`http://localhost:8080${file.filePath}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="flex items-center space-x-1 text-green-600 hover:underline"
+>
+  <FaDownload /> <span>Download</span>
+</a>
+
               </div>
             </div>
           ))

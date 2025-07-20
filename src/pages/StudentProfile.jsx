@@ -18,7 +18,8 @@ const StudentProfile = () => {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch(`https://eventmanager-backend-1-5121.onrender.com/api/students/${currentUserId}/events`, {
+        const response = await fetch(`http://localhost:8080
+/api/students/${currentUserId}/events`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token") || ""}`,

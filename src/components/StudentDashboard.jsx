@@ -31,6 +31,7 @@ const StudentDashboard = () => {
               <Link to="/student/mediafiles" className="hover:underline">Media</Link>
               <Link to="/student/announcements" className="hover:underline">Announcements</Link>
               <Link to="/student/profile" className="hover:underline">Profile</Link>
+              <Link to="/student/report-bug" className="hover:underline">Report Bug</Link>
               <button
                 onClick={handleLogout}
                 className="hover:underline text-red-200 ml-4"

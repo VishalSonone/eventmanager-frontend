@@ -4,7 +4,7 @@ function EventList() {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    fetch("https://eventmanager-backend-1-5121.onrender.com/api/events")
+    fetch("http://localhost:8080/api/events")
       .then((res) => res.json())
       .then((data) => setEvents(data))
       .catch((err) => console.error("Failed to fetch events", err));
