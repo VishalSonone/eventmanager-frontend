@@ -60,12 +60,12 @@ const Register = () => {
   };
 
   const validatePrn = (prn) => {
-    const isValid = /^[a-zA-Z0-9]{10,12}$/.test(prn);
+    const isValid = /^\d{16}$/.test(prn); // updated to 16-digit numeric validation
     setValidation(prev => ({
       ...prev,
       prn: {
         valid: isValid,
-        message: isValid ? "" : "PRN must be 10-12 alphanumeric characters"
+        message: isValid ? "" : "PRN must be a 16-digit number"
       }
     }));
   };
