@@ -137,7 +137,7 @@ function MediaFileAdmin() {
           <div key={f.filename} className="border rounded p-4 space-y-2 bg-white shadow-sm">
             {isImage(f.filename) ? (
               <img
-                src={f.filePath.startsWith("/") ? f.filePath : `/uploads/media/${f.filename}`}
+                src={f.filePath}
                 alt={f.originalName}
                 className="w-full h-40 object-cover rounded"
               />

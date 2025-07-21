@@ -88,7 +88,7 @@ const StudentMediaFiles = () => {
 
               {file.fileType.toLowerCase() === "image" ? (
                 <img
-                  src={`${BASE_URL}${file.filePath}`}
+                  src={file.filePath} // Cloudinary URL
                   alt={file.originalName}
                   className="w-full h-48 object-cover rounded-xl transform hover:scale-105 transition duration-300"
                 />
@@ -103,7 +103,7 @@ const StudentMediaFiles = () => {
 
               <div className="mt-4 flex justify-between items-center text-sm text-gray-700 font-medium">
                 <a
-                  href={`${BASE_URL}${file.filePath}`}
+                  href={file.filePath} // Cloudinary URL
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1 text-blue-600 hover:underline"
@@ -111,7 +111,7 @@ const StudentMediaFiles = () => {
                   <FaEye /> <span>Preview</span>
                 </a>
                 <a
-                  href={`${BASE_URL}${file.filePath}`}
+                  href={file.filePath} // Cloudinary URL
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1 text-green-600 hover:underline"

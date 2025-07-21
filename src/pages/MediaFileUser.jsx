@@ -66,11 +66,7 @@ function MediaFileUser() {
           >
             {file.fileType === "image" ? (
               <img
-                src={
-                  file.filePath.startsWith("/")
-                    ? file.filePath
-                    : `/uploads/media/${file.filename}`
-                }
+                src={file.filePath}
                 alt={file.originalName}
                 className="w-full h-40 object-cover rounded"
               />

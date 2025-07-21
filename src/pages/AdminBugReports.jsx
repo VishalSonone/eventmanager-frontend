@@ -41,9 +41,10 @@ const AdminBugReports = () => {
             {new Date(r.submittedAt).toLocaleString()}
           </p>
           <p className="break-words">{r.message}</p>
+
           {r.screenshotUrl && (
             <a
-              href={`${import.meta.env.VITE_API_URL}${r.screenshotUrl}`}
+              href={r.screenshotUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 underline break-all inline-block"
@@ -51,6 +52,7 @@ const AdminBugReports = () => {
               View Screenshot
             </a>
           )}
+
           <button
             onClick={() => handleDelete(r.id)}
             className="text-red-600 hover:underline text-sm"

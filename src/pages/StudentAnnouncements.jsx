@@ -66,9 +66,9 @@ const StudentAnnouncements = () => {
 
             <p className="text-gray-700 text-sm mb-2">{announcement.content}</p>
 
-            {announcement.fileName && (
+            {announcement.fileName && announcement.filePath && (
               <a
-                href={`${BASE_URL}/api/announcements/${announcement.id}/file`}
+                href={announcement.filePath} // Direct Cloudinary URL
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-sm text-blue-600 hover:underline gap-1"

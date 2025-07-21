@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trash2, Plus, FileText } from 'lucide-react';
-import { api, BASE_URL } from '../api';
+import { api } from '../api';
 
 const AdminAnnouncement = () => {
   const [announcements, setAnnouncements] = useState([]);
@@ -160,9 +160,9 @@ const AdminAnnouncement = () => {
                   <div className="flex-1">
                     <h3 className="text-base sm:text-lg font-semibold text-indigo-800">{a.title}</h3>
                     <p className="text-gray-700 mt-1">{a.content}</p>
-                    {a.fileName && (
+                    {a.fileUrl && (
                       <a
-                        href={`${BASE_URL}/api/announcements/${a.id}/file`}
+                        href={a.fileUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-2 inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 text-sm"
