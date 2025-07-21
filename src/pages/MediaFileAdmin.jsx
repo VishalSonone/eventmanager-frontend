@@ -79,6 +79,14 @@ function MediaFileAdmin() {
   };
 
   const isImage = name => /\.(jpg|jpeg|png|gif|webp)$/i.test(name);
+  const isDocument = name => /\.(pdf|docx?|pptx?|txt)$/i.test(name);
+
+ const getDownloadUrl = (url, isImage) => {
+  if (isImage) return url;
+  return url.replace("/upload/", "/upload/fl_attachment/");
+};
+
+
 
   return (
     <div className="p-4 sm:p-6 space-y-4">
@@ -133,67 +141,71 @@ function MediaFileAdmin() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {files.map(f => (
-          <div key={f.filename} className="border rounded p-4 space-y-2 bg-white shadow-sm">
-            {isImage(f.filename) ? (
-              <img
-                src={f.filePath}
-                alt={f.originalName}
-                className="w-full h-40 object-cover rounded"
-              />
-            ) : (
-              <div className="text-gray-700 font-semibold">📄 {f.originalName}</div>
-            )}
-            <div><strong>Uploaded:</strong> {new Date(f.uploadedAt).toLocaleString()}</div>
-            <div>
-              {editing === f.filename ? (
-                <>
-                  <input
-                    type="text"
-                    value={metadata.originalName}
-                    onChange={e => setMetadata(m => ({ ...m, originalName: e.target.value }))}
-                    className="border px-3 py-2 rounded w-full"
-                  />
-                  <input
-                    type="text"
-                    value={metadata.eventName}
-                    onChange={e => setMetadata(m => ({ ...m, eventName: e.target.value }))}
-                    className="border px-3 py-2 rounded w-full mt-2"
-                  />
-                </>
+        {files.map(f => {
+          const image = isImage(f.filename);
+          return (
+            <div key={f.filename} className="border rounded p-4 space-y-2 bg-white shadow-sm">
+              {image ? (
+                <img
+                  src={f.filePath}
+                  alt={f.originalName}
+                  className="w-full h-40 object-cover rounded"
+                />
               ) : (
-                <>
-                  <div><strong>Name:</strong> {f.originalName}</div>
-                  <div><strong>Event:</strong> {f.eventName || "N/A"}</div>
-                </>
+                <div className="text-gray-700 font-semibold">📄 {f.originalName}</div>
               )}
+              <div><strong>Uploaded:</strong> {new Date(f.uploadedAt).toLocaleString()}</div>
+              <div>
+                {editing === f.filename ? (
+                  <>
+                    <input
+                      type="text"
+                      value={metadata.originalName}
+                      onChange={e => setMetadata(m => ({ ...m, originalName: e.target.value }))}
+                      className="border px-3 py-2 rounded w-full"
+                    />
+                    <input
+                      type="text"
+                      value={metadata.eventName}
+                      onChange={e => setMetadata(m => ({ ...m, eventName: e.target.value }))}
+                      className="border px-3 py-2 rounded w-full mt-2"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <div><strong>Name:</strong> {f.originalName}</div>
+                    <div><strong>Event:</strong> {f.eventName || "N/A"}</div>
+                  </>
+                )}
+              </div>
+              <div className="flex justify-between mt-2 text-sm">
+                <a
+  href={getDownloadUrl(f.filePath, image)}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-blue-600 hover:underline"
+>
+  {image ? "Preview" : "Download"}
+</a>
+
+                {editing === f.filename ? (
+                  <button onClick={() => handleSave(f.filename)} className="text-green-600 font-medium">Save</button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setEditing(f.filename);
+                      setMetadata({ originalName: f.originalName, eventName: f.eventName || '' });
+                    }}
+                    className="text-yellow-600"
+                  >
+                    Edit
+                  </button>
+                )}
+                <button onClick={() => handleDelete(f.filename)} className="text-red-600">Delete</button>
+              </div>
             </div>
-            <div className="flex justify-between mt-2 text-sm">
-              <a
-                href={f.filePath}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
-              >
-                {isImage(f.filename) ? "Preview" : "Download"}
-              </a>
-              {editing === f.filename ? (
-                <button onClick={() => handleSave(f.filename)} className="text-green-600 font-medium">Save</button>
-              ) : (
-                <button
-                  onClick={() => {
-                    setEditing(f.filename);
-                    setMetadata({ originalName: f.originalName, eventName: f.eventName || '' });
-                  }}
-                  className="text-yellow-600"
-                >
-                  Edit
-                </button>
-              )}
-              <button onClick={() => handleDelete(f.filename)} className="text-red-600">Delete</button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
