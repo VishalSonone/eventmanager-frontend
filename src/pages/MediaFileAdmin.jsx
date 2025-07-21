@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { api } from "../api"; // adjust path if needed
+import { api } from "../api";
 import "react-toastify/dist/ReactToastify.css";
 
 function MediaFileAdmin() {
@@ -81,36 +81,43 @@ function MediaFileAdmin() {
   const isImage = name => /\.(jpg|jpeg|png|gif|webp)$/i.test(name);
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="p-4 sm:p-6 space-y-4">
       <ToastContainer />
-      <h2 className="text-2xl font-bold">🎛 Admin Media Manager</h2>
+      <h2 className="text-xl sm:text-2xl font-bold">🎛 Admin Media Manager</h2>
 
-      <div className="flex items-center gap-3">
-        <input type="file" onChange={e => setSelectedFile(e.target.files[0])} />
+      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3 gap-2">
+        <input
+          type="file"
+          onChange={e => setSelectedFile(e.target.files[0])}
+          className="w-full sm:w-auto"
+        />
         <input
           type="text"
           placeholder="Optional: Event Name"
           value={metadata.eventName}
           onChange={e => setMetadata({ ...metadata, eventName: e.target.value })}
-          className="border px-2 py-1 rounded"
+          className="border px-3 py-2 rounded w-full sm:w-64"
         />
-        <button onClick={handleUpload} className="bg-green-600 text-white px-3 py-1 rounded">
+        <button
+          onClick={handleUpload}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+        >
           Upload
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-3">
         <input
           type="text"
           placeholder="🔍 Search"
-          className="border px-2 py-1 rounded"
+          className="border px-3 py-2 rounded w-full sm:w-48"
           value={filters.search}
           onChange={e => setFilters(f => ({ ...f, search: e.target.value }))}
         />
         <select
           value={filters.type}
           onChange={e => setFilters(f => ({ ...f, type: e.target.value }))}
-          className="border px-2 py-1 rounded"
+          className="border px-3 py-2 rounded w-full sm:w-40"
         >
           <option value="all">All Types</option>
           <option value="image">Images</option>
@@ -119,15 +126,15 @@ function MediaFileAdmin() {
         <input
           type="text"
           placeholder="Event Name"
-          className="border px-2 py-1 rounded"
+          className="border px-3 py-2 rounded w-full sm:w-48"
           value={filters.eventName}
           onChange={e => setFilters(f => ({ ...f, eventName: e.target.value }))}
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {files.map(f => (
-          <div key={f.filename} className="border rounded p-4 space-y-2 bg-white">
+          <div key={f.filename} className="border rounded p-4 space-y-2 bg-white shadow-sm">
             {isImage(f.filename) ? (
               <img
                 src={f.filePath.startsWith("/") ? f.filePath : `/uploads/media/${f.filename}`}
@@ -145,13 +152,13 @@ function MediaFileAdmin() {
                     type="text"
                     value={metadata.originalName}
                     onChange={e => setMetadata(m => ({ ...m, originalName: e.target.value }))}
-                    className="border px-2 py-1 rounded w-full"
+                    className="border px-3 py-2 rounded w-full"
                   />
                   <input
                     type="text"
                     value={metadata.eventName}
                     onChange={e => setMetadata(m => ({ ...m, eventName: e.target.value }))}
-                    className="border px-2 py-1 rounded w-full mt-1"
+                    className="border px-3 py-2 rounded w-full mt-2"
                   />
                 </>
               ) : (
@@ -162,16 +169,26 @@ function MediaFileAdmin() {
               )}
             </div>
             <div className="flex justify-between mt-2 text-sm">
-              <a href={f.filePath} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+              <a
+                href={f.filePath}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
                 {isImage(f.filename) ? "Preview" : "Download"}
               </a>
               {editing === f.filename ? (
                 <button onClick={() => handleSave(f.filename)} className="text-green-600 font-medium">Save</button>
               ) : (
-                <button onClick={() => {
-                  setEditing(f.filename);
-                  setMetadata({ originalName: f.originalName, eventName: f.eventName || '' });
-                }} className="text-yellow-600">Edit</button>
+                <button
+                  onClick={() => {
+                    setEditing(f.filename);
+                    setMetadata({ originalName: f.originalName, eventName: f.eventName || '' });
+                  }}
+                  className="text-yellow-600"
+                >
+                  Edit
+                </button>
               )}
               <button onClick={() => handleDelete(f.filename)} className="text-red-600">Delete</button>
             </div>

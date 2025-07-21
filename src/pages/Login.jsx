@@ -17,8 +17,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/students/login`, {
-
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/students/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -44,9 +43,9 @@ const Login = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-200 overflow-hidden">
-      <div className="bg-white border border-indigo-200 rounded-2xl shadow-2xl px-10 py-12 w-full max-w-md animate-fade-in">
-        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-6">
+    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-200 overflow-auto px-4 py-10 sm:py-0">
+      <div className="bg-white border border-indigo-200 rounded-2xl shadow-2xl w-full max-w-md px-6 sm:px-10 py-10 sm:py-12 animate-fade-in">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-indigo-700 mb-6">
           🎓 Student Login
         </h2>
 

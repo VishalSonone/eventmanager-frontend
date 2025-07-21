@@ -46,9 +46,9 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-200 overflow-hidden">
-      <div className="bg-white border border-indigo-200 rounded-2xl shadow-2xl px-10 py-12 w-full max-w-md animate-fade-in">
-        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-6">
+    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-200 overflow-auto px-4 py-8 sm:py-0">
+      <div className="bg-white border border-indigo-200 rounded-2xl shadow-2xl px-6 sm:px-10 py-10 sm:py-12 w-full max-w-md animate-fade-in">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-indigo-700 mb-6">
           🔐 Admin Panel
         </h2>
 
@@ -67,7 +67,7 @@ const AdminLogin = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none transition-all"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none transition-all text-sm"
             />
           </div>
 
@@ -79,14 +79,14 @@ const AdminLogin = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none transition-all"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none transition-all text-sm"
             />
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full py-2 rounded-lg text-white font-semibold transition-all duration-300 ${
+            className={`w-full py-2 rounded-lg text-white font-semibold transition-all duration-300 text-sm ${
               isLoading
                 ? "bg-indigo-300 cursor-not-allowed"
                 : "bg-indigo-600 hover:bg-indigo-700"

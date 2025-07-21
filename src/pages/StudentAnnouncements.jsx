@@ -30,16 +30,16 @@ const StudentAnnouncements = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="min-h-screen px-6 py-6 bg-gradient-to-br from-indigo-50 to-purple-100"
+      className="min-h-screen px-4 sm:px-6 py-6 bg-gradient-to-br from-indigo-50 to-purple-100"
     >
-      <div className="flex items-center gap-3 mb-6">
-        <Bell className="text-indigo-600" size={28} />
-        <h1 className="text-3xl font-extrabold text-indigo-800 drop-shadow-sm">
+      <div className="flex items-center gap-2 sm:gap-3 mb-6">
+        <Bell className="text-indigo-600" size={24} />
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-indigo-800 drop-shadow-sm">
           📣 Announcements
         </h1>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {isLoading && (
           <div className="text-center text-gray-500 text-sm">Loading announcements...</div>
         )}
@@ -53,16 +53,17 @@ const StudentAnnouncements = () => {
         {announcements.map((announcement) => (
           <div
             key={announcement.id}
-            className="bg-white p-5 rounded-xl shadow-sm border border-indigo-100 hover:shadow-md transition"
+            className="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-indigo-100 hover:shadow-md transition"
           >
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="text-lg font-semibold text-indigo-700">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-2 gap-1 sm:gap-0">
+              <h3 className="text-base sm:text-lg font-semibold text-indigo-700">
                 {announcement.title}
               </h3>
               <span className="text-xs text-gray-500">
                 {new Date(announcement.createdAt).toLocaleString()}
               </span>
             </div>
+
             <p className="text-gray-700 text-sm mb-2">{announcement.content}</p>
 
             {announcement.fileName && (

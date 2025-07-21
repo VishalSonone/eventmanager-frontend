@@ -115,25 +115,25 @@ function StudentManagement() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex gap-4 text-sm font-semibold">
+    <div className="p-4 sm:p-6 space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 flex-wrap">
+        <div className="flex flex-wrap gap-4 text-sm font-semibold">
           <span className="text-gray-700">Total: {counts.total}</span>
           <span className="text-green-600">Approved: {counts.approved}</span>
           <span className="text-yellow-600">Pending: {counts.pending}</span>
           <span className="text-red-600">Rejected: {counts.rejected}</span>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
           <input
             type="text"
             placeholder="Search by name"
-            className="p-2 border rounded text-sm"
+            className="p-2 border rounded text-sm w-full sm:w-52"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <select
-            className="p-2 border rounded text-sm"
+            className="p-2 border rounded text-sm w-full sm:w-40"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
@@ -145,8 +145,8 @@ function StudentManagement() {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full border text-sm bg-white shadow rounded-lg">
+      <div className="overflow-x-auto rounded-lg border">
+        <table className="min-w-full text-sm bg-white shadow">
           <thead className="bg-gray-100 text-left">
             <tr>
               {[
@@ -205,50 +205,52 @@ function StudentManagement() {
                 <td className="px-3 py-2 border">{student.studentClass}</td>
                 <td className="px-3 py-2 border text-center">••••••••</td>
                 <td className="px-3 py-2 border">{renderStatus(student.status)}</td>
-                <td className="px-3 py-2 border flex gap-1 flex-wrap justify-center">
-                  {editId === student.id ? (
-                    <>
-                      <button
-                        onClick={() => saveEdit(student.id)}
-                        className="px-2 py-1 border rounded bg-blue-100 text-blue-600 flex items-center gap-1"
-                      >
-                        <Save size={14} /> Save
-                      </button>
-                      <button
-                        onClick={cancelEdit}
-                        className="px-2 py-1 border rounded bg-gray-100 text-gray-600 flex items-center gap-1"
-                      >
-                        <X size={14} /> Cancel
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        className="px-2 py-1 border rounded text-green-600 hover:bg-green-50"
-                        onClick={() => handleAction(student.id, "approve")}
-                      >
-                        <CheckCircle size={16} />
-                      </button>
-                      <button
-                        className="px-2 py-1 border rounded text-yellow-600 hover:bg-yellow-50"
-                        onClick={() => handleAction(student.id, "reject")}
-                      >
-                        <XCircle size={16} />
-                      </button>
-                      <button
-                        className="px-2 py-1 border rounded text-blue-600 hover:bg-blue-50"
-                        onClick={() => startEdit(student)}
-                      >
-                        <Edit size={16} />
-                      </button>
-                      <button
-                        className="px-2 py-1 border rounded text-red-600 hover:bg-red-50"
-                        onClick={() => handleDelete(student.id)}
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </>
-                  )}
+                <td className="px-3 py-2 border">
+                  <div className="flex flex-wrap gap-1 justify-center">
+                    {editId === student.id ? (
+                      <>
+                        <button
+                          onClick={() => saveEdit(student.id)}
+                          className="px-2 py-1 border rounded bg-blue-100 text-blue-600 flex items-center gap-1"
+                        >
+                          <Save size={14} /> Save
+                        </button>
+                        <button
+                          onClick={cancelEdit}
+                          className="px-2 py-1 border rounded bg-gray-100 text-gray-600 flex items-center gap-1"
+                        >
+                          <X size={14} /> Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="px-2 py-1 border rounded text-green-600 hover:bg-green-50"
+                          onClick={() => handleAction(student.id, "approve")}
+                        >
+                          <CheckCircle size={16} />
+                        </button>
+                        <button
+                          className="px-2 py-1 border rounded text-yellow-600 hover:bg-yellow-50"
+                          onClick={() => handleAction(student.id, "reject")}
+                        >
+                          <XCircle size={16} />
+                        </button>
+                        <button
+                          className="px-2 py-1 border rounded text-blue-600 hover:bg-blue-50"
+                          onClick={() => startEdit(student)}
+                        >
+                          <Edit size={16} />
+                        </button>
+                        <button
+                          className="px-2 py-1 border rounded text-red-600 hover:bg-red-50"
+                          onClick={() => handleDelete(student.id)}
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

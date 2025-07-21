@@ -38,7 +38,6 @@ const Register = () => {
     const validDomains = ["gmail.com", "yahoo.com", "outlook.com", "edu.in"];
     const domain = email.split("@")[1];
     const isValid = domain && validDomains.includes(domain);
-
     setValidation(prev => ({
       ...prev,
       email: {
@@ -60,7 +59,7 @@ const Register = () => {
   };
 
   const validatePrn = (prn) => {
-    const isValid = /^\d{16}$/.test(prn); // updated to 16-digit numeric validation
+    const isValid = /^\d{16}$/.test(prn);
     setValidation(prev => ({
       ...prev,
       prn: {
@@ -83,7 +82,6 @@ const Register = () => {
     try {
       const res = await api.post("/api/students/register", formData);
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.message || "Registration failed");
 
       setMessage({ text: "Registration successful! Redirecting to login...", isError: false });
@@ -96,16 +94,16 @@ const Register = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-200 p-4 overflow-hidden">
+    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-200 p-4 overflow-auto">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-md bg-white border border-indigo-200 rounded-2xl shadow-2xl px-8 py-10 animate-fade-in"
+        className="w-full max-w-md bg-white border border-indigo-200 rounded-2xl shadow-2xl px-6 py-8 sm:px-8 sm:py-10"
       >
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-bold text-indigo-700">🎓 Register</h2>
-          <p className="text-gray-600 mt-1">Create your student account</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-indigo-700">🎓 Register</h2>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">Create your student account</p>
         </div>
 
         <form onSubmit={handleRegister} className="space-y-4">
@@ -178,7 +176,7 @@ const Register = () => {
             <p className="text-sm text-red-600">{validation.prn.message}</p>
           )}
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input
               type="text"
               name="department"

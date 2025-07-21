@@ -94,12 +94,12 @@ const AdminAnnouncement = () => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="p-6 space-y-6 bg-gradient-to-br from-indigo-100 to-purple-200 min-h-screen"
+      className="p-4 sm:p-6 space-y-6 bg-gradient-to-br from-indigo-100 to-purple-200 min-h-screen"
     >
-      <div className="bg-white p-6 rounded-2xl shadow-xl border border-indigo-200">
-        <h2 className="text-2xl font-bold text-indigo-700 mb-4">📢 Create Announcement</h2>
+      <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-indigo-200">
+        <h2 className="text-xl sm:text-2xl font-bold text-indigo-700 mb-4">📢 Create Announcement</h2>
         {error && (
-          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-3 rounded mb-4">
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-3 rounded mb-4 text-sm">
             {error}
           </div>
         )}
@@ -109,20 +109,20 @@ const AdminAnnouncement = () => {
             placeholder="Title"
             value={newAnnouncement.title}
             onChange={(e) => setNewAnnouncement({ ...newAnnouncement, title: e.target.value })}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none text-sm"
             required
           />
           <textarea
             placeholder="Content"
             value={newAnnouncement.content}
             onChange={(e) => setNewAnnouncement({ ...newAnnouncement, content: e.target.value })}
-            className="w-full p-3 border border-gray-300 rounded-lg h-24 focus:ring-2 focus:ring-indigo-400 outline-none"
+            className="w-full p-3 border border-gray-300 rounded-lg h-24 focus:ring-2 focus:ring-indigo-400 outline-none text-sm"
             required
           />
           <select
             value={newAnnouncement.target}
             onChange={(e) => setNewAnnouncement({ ...newAnnouncement, target: e.target.value })}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 outline-none text-sm"
           >
             <option value="all">All Users</option>
             <option value="students">Students Only</option>
@@ -137,15 +137,15 @@ const AdminAnnouncement = () => {
           />
           <button
             type="submit"
-            className="flex items-center gap-2 bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 transition"
+            className="w-full sm:w-auto flex justify-center items-center gap-2 bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 transition text-sm"
           >
             <Plus size={16} /> Create Announcement
           </button>
         </form>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl shadow-xl border border-indigo-200">
-        <h2 className="text-2xl font-bold text-indigo-700 mb-4">📄 All Announcements</h2>
+      <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-xl border border-indigo-200">
+        <h2 className="text-xl sm:text-2xl font-bold text-indigo-700 mb-4">📄 All Announcements</h2>
         {isLoading ? (
           <div className="flex justify-center items-center h-32">
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-500"></div>
@@ -155,11 +155,11 @@ const AdminAnnouncement = () => {
         ) : (
           <div className="space-y-4">
             {announcements.map((a) => (
-              <div key={a.id} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-lg font-semibold text-indigo-800">{a.title}</h3>
-                    <p className="text-gray-700 mt-1 text-sm">{a.content}</p>
+              <div key={a.id} className="p-4 bg-gray-50 rounded-lg border border-gray-200 text-sm sm:text-base">
+                <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-2">
+                  <div className="flex-1">
+                    <h3 className="text-base sm:text-lg font-semibold text-indigo-800">{a.title}</h3>
+                    <p className="text-gray-700 mt-1">{a.content}</p>
                     {a.fileName && (
                       <a
                         href={`${BASE_URL}/api/announcements/${a.id}/file`}
@@ -171,11 +171,14 @@ const AdminAnnouncement = () => {
                       </a>
                     )}
                   </div>
-                  <button onClick={() => handleDelete(a.id)} className="text-red-600 hover:text-red-800">
+                  <button
+                    onClick={() => handleDelete(a.id)}
+                    className="text-red-600 hover:text-red-800 self-start sm:self-auto"
+                  >
                     <Trash2 size={18} />
                   </button>
                 </div>
-                <div className="flex justify-between text-xs text-gray-500 mt-2">
+                <div className="flex justify-between flex-wrap text-xs text-gray-500 mt-2">
                   <span>{new Date(a.createdAt).toLocaleString()}</span>
                   <span className="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">
                     {a.target === 'all'

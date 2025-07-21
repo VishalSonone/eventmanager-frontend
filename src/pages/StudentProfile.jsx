@@ -93,15 +93,15 @@ const StudentProfile = () => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-gradient-to-br from-indigo-50 to-purple-100 min-h-screen p-8"
+      className="bg-gradient-to-br from-indigo-50 to-purple-100 min-h-screen px-4 py-6 sm:px-6 md:px-8"
     >
-      <div className="mb-8">
-        <h2 className="text-4xl font-extrabold text-indigo-800 drop-shadow flex items-center gap-2">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-4xl font-extrabold text-indigo-800 drop-shadow flex items-center gap-2">
           👤 Student Profile
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 bg-white p-4 sm:p-6 rounded-xl shadow mb-10">
         <Field label="Name" value={currentUserData.name} />
         <Field label="Email" value={currentUserData.email} />
         <Field label="PRN" value={currentUserData.prn} />
@@ -122,7 +122,7 @@ const StudentProfile = () => {
 const Field = ({ label, value }) => (
   <div>
     <label className="text-sm text-gray-500 block mb-1">{label}</label>
-    <div className="bg-gray-50 border border-gray-200 rounded px-4 py-2 text-gray-800 font-medium shadow-sm">
+    <div className="bg-gray-50 border border-gray-200 rounded px-3 py-2 text-gray-800 font-medium shadow-sm text-sm sm:text-base">
       {value || "Not specified"}
     </div>
   </div>
@@ -146,9 +146,11 @@ const EventSection = ({ title, events, color }) => {
 
   return (
     <div>
-      <h3 className={`text-2xl font-bold ${colorClasses.text} mb-4`}>{title}</h3>
+      <h3 className={`text-xl sm:text-2xl font-bold ${colorClasses.text} mb-3`}>{title}</h3>
       {events.length === 0 ? (
-        <p className="italic text-gray-400 px-4 py-3 bg-white rounded shadow">No {title.includes("Upcoming") ? "upcoming" : "completed"} events.</p>
+        <p className="italic text-gray-400 px-4 py-3 bg-white rounded shadow text-sm">
+          No {title.includes("Upcoming") ? "upcoming" : "completed"} events.
+        </p>
       ) : (
         <div className="grid gap-4">
           {events.map((event) => (
@@ -159,7 +161,7 @@ const EventSection = ({ title, events, color }) => {
               transition={{ duration: 0.3 }}
               className={`rounded-xl p-4 shadow-sm border-l-4 ${colorClasses.border} ${colorClasses.bg}`}
             >
-              <h4 className="font-bold text-lg text-indigo-800">{event.name}</h4>
+              <h4 className="font-bold text-base sm:text-lg text-indigo-800">{event.name}</h4>
               <p className="text-sm text-gray-600 mt-1">
                 {new Date(event.date).toLocaleDateString()} @ {event.venue}
               </p>

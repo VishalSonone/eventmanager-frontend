@@ -62,26 +62,26 @@ const StudentEvents = () => {
     <div key={event.id} className="bg-white border border-indigo-100 rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
       <div className="p-5 space-y-3">
         <div className="flex justify-between items-start">
-          <h2 className="text-lg font-semibold text-indigo-700">{event.name}</h2>
+          <h2 className="text-base sm:text-lg font-semibold text-indigo-700 truncate">{event.name}</h2>
           <span className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">
             {participantsCount[event.id] || 0} participants
           </span>
         </div>
         <p className="text-gray-600 text-sm">{event.description}</p>
-        <div className="text-sm text-gray-500 flex justify-between">
+        <div className="text-sm text-gray-500 flex justify-between flex-wrap gap-1">
           <span>Type: {event.type}</span>
           <span>Date: {new Date(event.date).toLocaleDateString()}</span>
         </div>
-        <div className="text-sm text-gray-500 flex justify-between">
+        <div className="text-sm text-gray-500 flex justify-between flex-wrap gap-1">
           <span>Venue: {event.venue}</span>
           <span>Organizer: {event.organizer}</span>
         </div>
       </div>
       <div className="bg-indigo-50 px-5 py-3 flex justify-end">
         {enrolledEventIds.includes(event.id) ? (
-          <span className="text-green-600 font-medium">Already Enrolled</span>
+          <span className="text-green-600 font-medium text-sm">Already Enrolled</span>
         ) : disableEnroll ? (
-          <span className="text-gray-400 italic">Event Completed</span>
+          <span className="text-gray-400 italic text-sm">Event Completed</span>
         ) : (
           <Link
             to={`/student/events/enroll/${event.id}`}
@@ -106,10 +106,10 @@ const StudentEvents = () => {
   const completedEvents = events.filter(e => e.status === "completed");
 
   return (
-    <div className="p-6 space-y-10 bg-gradient-to-br from-indigo-50 to-purple-100 min-h-screen">
+    <div className="p-4 sm:p-6 space-y-10 bg-gradient-to-br from-indigo-50 to-purple-100 min-h-screen">
       <div>
-        <h1 className="text-3xl font-bold text-indigo-800 mb-6">Upcoming Events</h1>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <h1 className="text-2xl sm:text-3xl font-bold text-indigo-800 mb-4 sm:mb-6">Upcoming Events</h1>
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {upcomingEvents.length > 0 ? (
             upcomingEvents.map(event => renderEventCard(event))
           ) : (
@@ -119,8 +119,8 @@ const StudentEvents = () => {
       </div>
 
       <div>
-        <h2 className="text-2xl font-bold text-indigo-800 mb-4">Completed Events</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <h2 className="text-xl sm:text-2xl font-bold text-indigo-800 mb-3 sm:mb-4">Completed Events</h2>
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {completedEvents.length > 0 ? (
             completedEvents.map(event => renderEventCard(event, true))
           ) : (
@@ -130,13 +130,13 @@ const StudentEvents = () => {
       </div>
 
       <div>
-        <h2 className="text-2xl font-bold text-indigo-800 mb-4">Your Enrollments</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-indigo-800 mb-3 sm:mb-4">Your Enrollments</h2>
         {enrollments.length > 0 ? (
           <div className="space-y-4">
             {enrollments.map((enrollment) => (
               <div key={enrollment.id} className="bg-white border border-indigo-100 rounded-xl p-4 shadow hover:shadow-md transition">
-                <div className="flex justify-between items-start">
-                  <h3 className="text-base font-medium text-gray-800">{enrollment.event?.name}</h3>
+                <div className="flex justify-between items-start gap-2">
+                  <h3 className="text-sm sm:text-base font-medium text-gray-800 truncate">{enrollment.event?.name}</h3>
                   <span className="bg-indigo-100 text-indigo-700 text-xs font-medium px-2.5 py-0.5 rounded-full">
                     {participantsCount[enrollment.event?.id] || 0} participants
                   </span>

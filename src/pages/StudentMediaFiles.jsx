@@ -32,17 +32,21 @@ const StudentMediaFiles = () => {
   });
 
   return (
-    <div className="p-6 max-w-7xl mx-auto animate-fade-in">
-      <div className="mb-8">
-        <h2 className="text-4xl font-extrabold text-indigo-700 drop-shadow-lg">📁 Your Media Gallery</h2>
-        <p className="text-gray-600 mt-1">Explore uploaded photos and documents with preview & download.</p>
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto animate-fade-in">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 drop-shadow-lg">
+          📁 Your Media Gallery
+        </h2>
+        <p className="text-gray-600 mt-1 text-sm sm:text-base">
+          Explore uploaded photos and documents with preview & download.
+        </p>
       </div>
 
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-        <div className="flex space-x-3">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4 mb-6">
+        <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => setActiveTab("images")}
-            className={`px-5 py-2 rounded-full text-sm font-semibold shadow transition ${
+            className={`px-4 py-2 rounded-full text-sm font-semibold shadow transition ${
               activeTab === "images"
                 ? "bg-indigo-600 text-white"
                 : "bg-gray-200 text-gray-700 hover:bg-indigo-100"
@@ -52,7 +56,7 @@ const StudentMediaFiles = () => {
           </button>
           <button
             onClick={() => setActiveTab("documents")}
-            className={`px-5 py-2 rounded-full text-sm font-semibold shadow transition ${
+            className={`px-4 py-2 rounded-full text-sm font-semibold shadow transition ${
               activeTab === "documents"
                 ? "bg-indigo-600 text-white"
                 : "bg-gray-200 text-gray-700 hover:bg-indigo-100"
@@ -71,7 +75,7 @@ const StudentMediaFiles = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
         {filteredFiles.length > 0 ? (
           filteredFiles.map((file) => (
             <div
@@ -91,16 +95,18 @@ const StudentMediaFiles = () => {
               ) : (
                 <div className="flex flex-col items-center justify-center h-48 bg-gray-100 rounded-xl text-center p-4 text-indigo-700">
                   <FiFileText className="text-5xl mb-2" />
-                  <p className="font-medium text-sm line-clamp-2">{file.originalName}</p>
+                  <p className="font-medium text-sm line-clamp-2">
+                    {file.originalName}
+                  </p>
                 </div>
               )}
 
-              <div className="mt-4 flex justify-between text-sm text-gray-700 font-medium">
+              <div className="mt-4 flex justify-between items-center text-sm text-gray-700 font-medium">
                 <a
                   href={`${BASE_URL}${file.filePath}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-1 text-blue-600 hover:underline"
+                  className="flex items-center gap-1 text-blue-600 hover:underline"
                 >
                   <FaEye /> <span>Preview</span>
                 </a>
@@ -108,7 +114,7 @@ const StudentMediaFiles = () => {
                   href={`${BASE_URL}${file.filePath}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-1 text-green-600 hover:underline"
+                  className="flex items-center gap-1 text-green-600 hover:underline"
                 >
                   <FaDownload /> <span>Download</span>
                 </a>
@@ -116,7 +122,7 @@ const StudentMediaFiles = () => {
             </div>
           ))
         ) : (
-          <div className="col-span-full text-center text-gray-500 italic text-lg">
+          <div className="col-span-full text-center text-gray-500 italic text-base sm:text-lg">
             No matching files found.
           </div>
         )}

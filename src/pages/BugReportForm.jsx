@@ -28,43 +28,47 @@ const BugReportForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white p-6 shadow rounded-xl space-y-4">
-      <h2 className="text-xl font-bold text-indigo-700">🐞 Report a Bug</h2>
-      {submitted ? (
-        <p className="text-green-600">Thanks! We'll fix it soon.</p>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="studentName"
-            placeholder="Your Name"
-            required
-            value={form.studentName}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          />
-          <textarea
-            name="message"
-            placeholder="Describe the issue"
-            required
-            value={form.message}
-            onChange={handleChange}
-            className="w-full p-2 border rounded h-32"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="w-full"
-          />
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 text-white p-2 rounded hover:bg-indigo-700"
-          >
-            Submit
-          </button>
-        </form>
-      )}
+    <div className="px-4 py-6 min-h-screen bg-gradient-to-br from-indigo-100 to-purple-200 flex items-center justify-center">
+      <div className="w-full max-w-md bg-white p-6 sm:p-8 shadow rounded-2xl space-y-4">
+        <h2 className="text-2xl font-bold text-indigo-700 text-center">🐞 Report a Bug</h2>
+        {submitted ? (
+          <p className="text-green-600 text-center text-sm sm:text-base">
+            Thanks! We'll fix it soon.
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              name="studentName"
+              placeholder="Your Name"
+              required
+              value={form.studentName}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md text-sm"
+            />
+            <textarea
+              name="message"
+              placeholder="Describe the issue"
+              required
+              value={form.message}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md h-32 text-sm resize-none"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="w-full text-sm"
+            />
+            <button
+              type="submit"
+              className="w-full bg-indigo-600 text-white py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition"
+            >
+              Submit
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 };

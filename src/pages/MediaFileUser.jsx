@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { api } from "../api"; // adjust path if needed
+import { api } from "../api";
 
 function MediaFileUser() {
   const [files, setFiles] = useState([]);
@@ -24,19 +24,27 @@ function MediaFileUser() {
   });
 
   return (
-    <div className="p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-blue-700">📁 Media Files</h2>
+    <div className="p-4 sm:p-6 space-y-6">
+      <h2 className="text-xl sm:text-2xl font-bold text-blue-700">📁 Media Files</h2>
 
-      <div className="flex space-x-4">
+      <div className="flex flex-wrap gap-2">
         <button
           onClick={() => setActiveTab("images")}
-          className={`px-4 py-2 rounded ${activeTab === "images" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded ${
+            activeTab === "images"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-700"
+          }`}
         >
           📷 Photos
         </button>
         <button
           onClick={() => setActiveTab("documents")}
-          className={`px-4 py-2 rounded ${activeTab === "documents" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          className={`px-4 py-2 rounded ${
+            activeTab === "documents"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-700"
+          }`}
         >
           📄 Documents
         </button>
@@ -50,12 +58,19 @@ function MediaFileUser() {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredFiles.map((file) => (
-          <div key={file.filename} className="border rounded p-3 shadow hover:shadow-lg bg-white">
+          <div
+            key={file.filename}
+            className="border rounded p-3 shadow-sm hover:shadow-md bg-white transition"
+          >
             {file.fileType === "image" ? (
               <img
-                src={file.filePath.startsWith("/") ? file.filePath : `/uploads/media/${file.filename}`}
+                src={
+                  file.filePath.startsWith("/")
+                    ? file.filePath
+                    : `/uploads/media/${file.filename}`
+                }
                 alt={file.originalName}
                 className="w-full h-40 object-cover rounded"
               />
@@ -85,8 +100,11 @@ function MediaFileUser() {
             </div>
           </div>
         ))}
+
         {filteredFiles.length === 0 && (
-          <p className="text-gray-500 italic col-span-full">No files found.</p>
+          <p className="text-gray-500 italic col-span-full">
+            No files found.
+          </p>
         )}
       </div>
     </div>

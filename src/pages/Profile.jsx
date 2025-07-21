@@ -20,20 +20,20 @@ const Profile = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-purple-100 to-indigo-200"
+      className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-purple-100 to-indigo-200 px-4 sm:px-6"
     >
-      <div className="bg-white shadow-2xl rounded-2xl p-10 max-w-md w-full text-center">
-        <h2 className="text-3xl font-bold text-indigo-700 mb-2">Student Profile</h2>
-        <p className="text-gray-600 mb-6">Your account details</p>
+      <div className="bg-white shadow-2xl rounded-2xl p-6 sm:p-10 max-w-md w-full text-center">
+        <h2 className="text-2xl sm:text-3xl font-bold text-indigo-700 mb-2">Student Profile</h2>
+        <p className="text-gray-600 mb-6 text-sm sm:text-base">Your account details</p>
 
-        <div className="space-y-3 text-left text-sm">
+        <div className="space-y-3 text-left text-sm sm:text-base">
           <ProfileItem icon="👤" label="Name" value={student.name} />
           <ProfileItem icon="📧" label="Email" value={student.email} />
           <ProfileItem icon="🏫" label="Department" value={student.department} />
           <ProfileItem icon="🆔" label="PRN" value={student.prn} />
           <ProfileItem icon="📚" label="Class" value={student.studentClass} />
           <ProfileItem icon="📱" label="Phone" value={student.phone} />
-          <p className="flex items-center gap-2">
+          <p className="flex items-center gap-2 flex-wrap">
             <span className="text-indigo-600">🔒</span>
             <strong>Status:</strong>
             <span
@@ -55,9 +55,9 @@ const Profile = () => {
 };
 
 const ProfileItem = ({ icon, label, value }) => (
-  <p className="flex items-center gap-2">
+  <p className="flex items-center gap-2 flex-wrap break-words">
     <span className="text-indigo-600">{icon}</span>
-    <strong>{label}:</strong> {value}
+    <strong>{label}:</strong> <span className="truncate">{value}</span>
   </p>
 );
 

@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
-    <div className="bg-gray-800 text-white text-center py-3 shadow-inner">
+    <footer className="bg-gray-800 text-white text-center py-4 px-4 shadow-inner text-sm sm:text-base">
       &copy; 2025 SOCS KBCNMU JALGAON
-    </div>
+    </footer>
   );
 };
 

@@ -5,12 +5,12 @@ import { FaGithub, FaLinkedin, FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 const About = () => {
   return (
-    <div className="h-screen w-screen overflow-hidden bg-gradient-to-br from-sky-100 to-indigo-200 flex items-center justify-center p-4">
+    <div className="min-h-screen w-full bg-gradient-to-br from-sky-100 to-indigo-200 flex items-center justify-center p-4 overflow-y-auto">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="bg-white shadow-xl rounded-2xl w-full max-w-md p-6 text-center space-y-4"
+        className="bg-white shadow-xl rounded-2xl w-full max-w-md sm:max-w-xl p-6 sm:p-8 text-center space-y-4"
       >
         <div className="flex justify-center">
           <img
@@ -20,15 +20,15 @@ const About = () => {
           />
         </div>
 
-        <h1 className="text-2xl font-bold text-indigo-700">
+        <h1 className="text-2xl sm:text-3xl font-bold text-indigo-700">
           Campus Event Manager
         </h1>
 
-        <p className="text-sm text-gray-600">
+        <p className="text-sm sm:text-base text-gray-600">
           One place for all your college event needs — announcements, results, and celebrations.
         </p>
 
-        <div className="bg-indigo-50 rounded-xl p-3 text-indigo-700 shadow-inner text-sm">
+        <div className="bg-indigo-50 rounded-xl p-3 sm:p-4 text-indigo-700 shadow-inner text-sm sm:text-base">
           <p className="font-medium">📌 Organized by</p>
           <p className="font-semibold leading-tight">
             PPA ACTIVITY CLUB,<br />
@@ -36,7 +36,7 @@ const About = () => {
           </p>
         </div>
 
-        <div className="text-gray-700 text-sm">
+        <div className="text-gray-700 text-sm sm:text-base">
           <p className="font-medium">👨‍💻 Developed by</p>
           <p className="font-semibold text-indigo-700">Vishal Sonone</p>
           <p className="italic">MCA Student, SOCS</p>
