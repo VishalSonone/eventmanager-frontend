@@ -1,4 +1,5 @@
-export const BASE_URL = import.meta.env.VITE_API_URL;
+// In your pages/api.js file
+export const BASE_URL = import.meta.env.VITE_API_URL || 'https://eventmanager-backend-1-5121.onrender.com';
 
 export const api = {
   get: (path, options = {}) =>
